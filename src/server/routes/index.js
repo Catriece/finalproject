@@ -11,7 +11,7 @@ router.get("/test", (req, res, next) => {
 });
 
 router.use("/user", userRouter);
-router.use("/newuser", newUserRouter);
+router.use("/create", newUserRouter);
 router.use("/updateuser", updateUserRouter);
 router.use("/addfamilymember", addFamilyMemberRouter);
 

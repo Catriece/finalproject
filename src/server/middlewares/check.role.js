@@ -1,9 +1,8 @@
 const checkUserRole = (req, res, next) => {
-  // Assuming you have a way to determine the user's role
-  const userRole = req.user.role;
+  const user_role = req.user.role;
 
   // Check if the user has the necessary role (e.g., admin)
-  if (userRole === "admin") {
+  if (user_role === "admin") {
     // User has the necessary role, proceed to the next middleware or router handler
     next();
   } else {
