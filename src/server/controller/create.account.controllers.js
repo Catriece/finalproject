@@ -1,4 +1,5 @@
 import query from "../db/utils";
+import bcrypt from "bcrypt";
 
 const createEmail = async (user_input) => {
   const { email } = user_input;
@@ -39,11 +40,18 @@ const createUser = async (user_input) => {
   const { first_name, middle_name, last_name, username, email, password } =
     user_input;
 
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+
+  const hashedPassword = await bcrypt.hash(password, salt);
+
   if (user_input) {
     return await query(
       "INSERT INTO users (first_name, middle_name, last_name, username, email, password) VALUES(?, ?, ?, ?, ?, ?)",
-      [first_name, middle_name, last_name, username, email, password]
+      [first_name, middle_name, last_name, username, email, hashedPassword]
     );
+  } else {
+    throw new Error("Error creating user:", error);
   }
 };
 
