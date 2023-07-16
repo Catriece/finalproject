@@ -1,0 +1,71 @@
+TEMPLATES FOR CREATING ACCOUNTS
+
+REQUEST TYPE: POST REQUESTS
+
+WHAT I USE TO TEST IN POSTMAN:
+
+localhost:5050/api/create/
+
+CREATING A NEW USER (ADD TO EXISTING FAMILY CIRCLE)- 
+
+endpoint: 
+/newuser/joincircle
+
+{
+    "circle_code": "",
+    "first_name": "",
+    "middle_name": "",
+    "last_name": "",
+    "username": "",
+    "email": "",
+    "password": "",
+    "relationship": ""
+}
+
+ADDING AN EXISTING USER TO FAMILY CIRCLE
+
+endpoint:
+/existinguser/joincircle
+
+{
+    "circle_code": "",
+    "username": "",
+    "relationship": ""
+}
+
+CREATING A NEW FAMILY CIRCLE FOR A NEW USER
+endpoint: 
+/newuser/newcircle
+
+{
+    "circle_name": "",
+    "first_name": "",
+    "middle_name": "",
+    "last_name": "",
+    "username": "",
+    "email": "",
+    "password": ""
+}
+
+CREATING A NEW FAMILY CIRCLE FOR AN EXISTING USER
+
+endpoint:
+/existinguser/newcircle
+
+{
+    "username": "",
+    "circle_name": ""
+}
+
+
+// TEST USERS - USERNAME AND PASSWORDS
+
+heythere - boobooth@foo1
+Erms - ermsGirl5 (has family circle)
+Madsria - madiLovesChocolate (has family circle)
+CaliB23 - BakerBornBby
+jagboy35 - Ballboy5!
+Elileboy35 - Ballboy1!
+Testing1 - Test1!
+Testing2 - Test2!
+EverGirl - EverGreenGirl5

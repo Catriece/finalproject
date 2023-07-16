@@ -1,0 +1,1 @@
+1. In my route that creates a new user as well as a new family circle, I was able to create a new user account but it failed to create a new family circle. How can I prevent a new account creation if a family circle isn't created?

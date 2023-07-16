@@ -3,9 +3,11 @@ import user from "../controller/create.account.controllers";
 
 const router = express.Router();
 
-// Create New Account
+// CREATES A NEW ACCOUNT
+// ENSURES EMAIL AND USERNAME ARE NOT ALREADY IN USE
+// USES FAMILY CODE TO ADD NEW USER TO AN EXISTING FAMILY CIRCLE
 
-router.post("/user", async (req, res, next) => {
+router.post("/newuser/joincircle", async (req, res, next) => {
   try {
     let user_info = req.body;
     console.log("REQUEST BODY", user_info);
@@ -16,7 +18,7 @@ router.post("/user", async (req, res, next) => {
         let new_email = await user.searchEmail(user_info);
 
         if (new_email) {
-          let new_user = await user.createUser(user_info);
+          let new_user = await user.AddNewUserToFamilyCircleWithCode(user_info);
 
           res.json(new_user);
         } else {
@@ -31,7 +33,28 @@ router.post("/user", async (req, res, next) => {
   }
 });
 
-router.post("/newuser/familycircle", async (req, res, next) => {
+// ALLOWS EXISTING USER TO JOIN AN EXISTING FAMILY CIRCLE
+
+router.post("/existinguser/joincircle", async (req, res, next) => {
+  try {
+    let user_info = req.body;
+    console.log("REQUEST BODY", user_info);
+
+    if (user_info) {
+      let data = await user.AddExistingUserToFamilyCircleWithCode(user_info);
+
+      res.json(data);
+    } else {
+      throw new Error("Error adding user to family circle");
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ALLOWS USER TO CREATE AN ACCOUNT AND A NEW FAMILY CIRCLE
+
+router.post("/newuser/newcircle", async (req, res, next) => {
   try {
     let user_info = req.body;
     console.log("req body", user_info);
@@ -46,7 +69,9 @@ router.post("/newuser/familycircle", async (req, res, next) => {
   }
 });
 
-router.post("/existinguser/familycircle", async (req, res, next) => {
+// ALLOWS EXISTING USER TO CREATE A NEW FAMILY CIRCLE
+
+router.post("/existinguser/newcircle", async (req, res, next) => {
   try {
     let user_info = req.body;
     console.log("req body", user_info);
