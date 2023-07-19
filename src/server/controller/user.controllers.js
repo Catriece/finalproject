@@ -2,10 +2,14 @@ import query from "../db/utils";
 import path from "path";
 import bcrypt from "bcrypt";
 
+// UPDATING THE USERS PROFILE PICTURE
+
 const updateProfilePicture = async (req) => {
   const { id, url } = req;
 
   if (url) {
+    //VALIDATES URL LINK BASED ON EXTENSION NAME
+
     const validateImgExt = (url) => {
       const ext_types = [".jpg", ".jpeg", ".png", ".gif"];
       const ext = path.extname(url).toLowerCase();
@@ -13,6 +17,8 @@ const updateProfilePicture = async (req) => {
     };
 
     const extIsValid = validateImgExt(url);
+
+    // UPDATES THE PROFILE PICTURE LINK IN THE DATABASE OR THROWS AN ERROR
 
     if (extIsValid) {
       return await query("UPDATE users SET profile_picture = ? WHERE id = ?", [
@@ -34,26 +40,50 @@ const deleteProfilePicture = async (url) => {
   return await query("DELETE FROM users WHERE profile_picture = ?", [url]);
 };
 
+// UPDATING THE USERS COVER PHOTO
+
 const updateCoverPhoto = async (req) => {
   const { id, url } = req;
 
   if (url) {
-    return await query("UPDATE users SET cover_photo = ? WHERE id = ?", [
-      url,
-      id,
-    ]);
+    //VALIDATES URL LINK BASED ON EXTENSION NAME
+
+    const validateImgExt = (url) => {
+      const ext_types = [".jpg", ".jpeg", ".png"];
+      const ext = path.extname(url).toLowerCase();
+      return ext_types.includes(ext);
+    };
+
+    const extIsValid = validateImgExt(url);
+
+    // UPDATES THE USERS COVER PHOTO LINK WITHIN THE DATABASE OR THROWS AN ERROR
+
+    if (extIsValid) {
+      return await query("UPDATE users SET cover_photo = ? WHERE id = ?", [
+        url,
+        id,
+      ]);
+    } else {
+      throw new Error(
+        "Invalid picture formart. Upload a .jpg, .jpeg, or .png file only"
+      );
+    }
   } else {
-    return null;
+    throw new Error("Image link is required for update");
   }
 };
+
+//DELETING COVER PHOTO NEEDS FIXING
 
 const deleteCoverPhoto = async (url) => {
   return await query("DELETE FROM users WHERE cover_photo = ?", [url]);
 };
 
+// USER CAN UPDATE THEIR BIOGRAPHY
 const updateBiography = async (req) => {
   const { id, biography } = req;
 
+  // USER ABLE TO UPDATE BIOGRAPHY WITH CHARACTER COUNT LESS THAN 251
   if (id && biography.length < 251) {
     return await query("UPDATE users SET biography = ? WHERE id = ?", [
       biography,
@@ -64,20 +94,26 @@ const updateBiography = async (req) => {
   }
 };
 
+// UPDATING FIRST NAME
+
 const updateFirstName = async (req) => {
   const { id, first_name } = req;
+
+  // NAME UPDATE MUST BE A STRING TYPE AND NOT EMPTY
 
   if (
     typeof first_name === "string" &&
     first_name.trim() !== "" &&
     first_name.length < 51
   ) {
+    // NAME IS UPDATED IF PREVIOUS CONDITIONS ARE MET
+
     return await query("UPDATE users SET first_name = ? WHERE id = ?", [
       first_name,
       id,
     ]);
   } else {
-    return null;
+    throw new Error("Input valid name");
   }
 };
 
