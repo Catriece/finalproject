@@ -1,0 +1,103 @@
+TEMPLATES FOR UPDATING USER ACCOUNTS AND FINDING USER INFORMATION
+
+REQUEST TYPE: PUT AND POST REQUESTS
+
+WHAT I USE TO TEST IN POSTMAN:
+
+localhost:5050/api/updateuser/
+
+UPDATING AN EXISTING USERS PROFILE PICTURE -
+
+endpoint: 
+/profilepicture
+
+{
+    "id": "",
+    "url": ""
+}
+
+
+UPDATING AN EXISTING USERS COVER PHOTO -
+
+endpoint: 
+/coverphoto
+
+{
+    "id": "",
+    "url": ""
+}
+
+UPDATING AN EXISTING USERS BIOGRAPHY
+
+endpoint: 
+/biography
+
+{
+    "id": "",
+    "biography": ""
+}
+
+
+UPDATING AN EXISTING USERS FIRST NAME- 
+
+endpoint: 
+/firstname
+
+{
+    "id": "",
+    "first_name": ""
+}
+
+
+UPDATING AN EXISTING USERS MIDDLE NAME- 
+
+endpoint: 
+/middlename
+
+{
+    "id": "",
+    "middle_name": ""
+}
+
+
+UPDATING AN EXISTING USERS LAST NAME- 
+
+endpoint: 
+/lastname
+
+{
+    "id": "",
+    "last_name": ""
+}
+
+UPDATING AN EXISTING USERS EMAIL- 
+
+endpoint: 
+/email
+
+{
+    "id": "",
+    "email": ""
+}
+
+UPDATING AN EXISTING USERS PASSWORD- 
+
+endpoint: 
+/password
+
+{
+    "id": "",
+    "password": ""
+}
+
+
+// POST REQUESTS BELOW
+
+UPDATING AN EXISTING USERS EMAIL- 
+
+endpoint: 
+/email
+
+{
+    "email": "",
+}

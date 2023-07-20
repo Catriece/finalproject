@@ -185,6 +185,22 @@ const updatePassword = async (req) => {
   }
 };
 
+// Function checks to see if a username is already in use.
+
+const findUsername = async (email) => {
+  console.log("MADE IT TO FIND USERNAME FUNCTION");
+  if (email) {
+    const found_username = await query(
+      "SELECT username FROM users WHERE email = ?",
+      [email]
+    );
+    console.log("EMAIL FOUND", found_username);
+    return found_username;
+  } else {
+    throw new Error("Email not associated with an account");
+  }
+};
+
 export default {
   updateProfilePicture,
   updateCoverPhoto,
@@ -196,4 +212,5 @@ export default {
   updatePassword,
   deleteCoverPhoto,
   deleteProfilePicture,
+  findUsername,
 };

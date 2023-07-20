@@ -90,4 +90,20 @@ router.put("/password", async (req, res, next) => {
   }
 });
 
+router.post("/username", async (req, res, next) => {
+  try {
+    let email = req.body.email;
+
+    if (!email) {
+      throw new Error("Email parameter is missing");
+    }
+
+    let data = await user.findUsername(email);
+
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;
