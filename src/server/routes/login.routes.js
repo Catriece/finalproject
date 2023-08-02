@@ -9,7 +9,7 @@ router.post("/", async (req, res, next) => {
     let user = await login.loginAuthentication(user_info);
 
     if (user) {
-      console.log(user.username, "is signed in!");
+      console.log(user.payload.username, "is signed in!");
       res.json(user);
     }
   } catch (err) {

@@ -17,7 +17,7 @@ router.put("/profilepicture", async (req, res, next) => {
 router.put("/coverphoto", async (req, res, next) => {
   try {
     let url = req.body;
-    let data = await user.updateProfilePicture(url);
+    let data = await user.updateCoverPhoto(url);
 
     res.json(data);
   } catch (err) {

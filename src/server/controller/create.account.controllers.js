@@ -2,7 +2,7 @@ import query from "../db/utils";
 import bcrypt from "bcrypt";
 import generateCircleCode from "../functions/generate.family.code";
 
-// Function checks to see if an email is already in use
+// FUNCTION CHECKS TO SEE IF EMAIL IS IN USE
 
 const searchEmail = async (user_input) => {
   const { email } = user_input;
@@ -22,7 +22,7 @@ const searchEmail = async (user_input) => {
   }
 };
 
-// Function checks to see if a username is already in use.
+// FUNCTION CHECKS TO SEE IF USERNAME IS IN USE
 
 const searchUsername = async (user_input) => {
   const { username } = user_input;
@@ -42,11 +42,29 @@ const searchUsername = async (user_input) => {
   }
 };
 
-// Function will add a new user to a family circle upon account creation
+// FUNCTION LOCATES A FAMILY CODE
+
+const searchFamilyCode = async (user_input) => {
+  const { circle_code } = user_input;
+
+  if (circle_code) {
+    const find_code = await query(
+      "SELECT circle_code FROM family_codes WHERE circle_code = ?",
+      [circle_code]
+    );
+
+    if (find_code.length > 0) {
+      return circle_code;
+    } else {
+      throw new Error("Invalid Family Code");
+    }
+  }
+};
+
+// FUNCTION ADDS NEW USER TO A FAMILY CIRCLE UPON ACCOUNT CREATION
 
 const AddNewUserToFamilyCircleWithCode = async (user_input) => {
   const {
-    circle_code,
     first_name,
     middle_name,
     last_name,
@@ -56,7 +74,7 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
     relationship,
   } = user_input;
 
-  // Secure password creation
+  // SECURE PASSWORD CREATION
 
   const saltRounds = 10;
   const salt = await bcrypt.genSalt(saltRounds);
@@ -64,16 +82,16 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
   const hashedPassword = await bcrypt.hash(password, salt);
 
   try {
-    // Verify client's family code input
+    // VERIFIES FAMILY CODE INPUT
 
     const code_found = await query(
       "SELECT circle_code FROM family_codes WHERE circle_code = ?",
       [circle_code]
     );
 
-    // If family code is verified, create user account
+    // USER ACCOUNT CREATED UPON VERIFICATION
 
-    if (code_found) {
+    if (username && email) {
       await query(
         "INSERT INTO users (first_name, middle_name, last_name, username, email, password, salt) VALUES(?, ?, ?, ?, ?, ?, ?)",
         [
@@ -89,7 +107,7 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
 
       console.log("New user created successfully");
 
-      // Retrieve information from family circle creator
+      // FAMILY CIRCLE CREATOR INFO RETRIEVAL
 
       const circle_creator = await query(
         "SELECT creator_id, username FROM family_codes WHERE circle_code = ?",
@@ -98,7 +116,7 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
 
       console.log("info from creator", circle_creator);
 
-      // Retrieve information from new user to be added to family circle
+      // NEW USER TO BE ADDED INFO RETRIEVAL
 
       const new_user = await query(
         "SELECT id, username FROM users WHERE username = ?",
@@ -107,7 +125,7 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
 
       console.log("info from new_user", new_user);
 
-      // Add new user to family circle
+      // NEW USER ADDED TO FAMILY CIRCLE
 
       await query(
         "INSERT INTO family_relationships (user_id, username, family_id, circle_creator, relationship) VALUES (?, ?, ?, ?, ?)",
@@ -137,7 +155,7 @@ const AddExistingUserToFamilyCircleWithCode = async (user_input) => {
   const { circle_code, username, relationship } = user_input;
 
   try {
-    // Verify client's family code input
+    // VERIFIES FAMILY CODE INPUT
 
     const code_found = await query(
       "SELECT circle_code FROM family_codes WHERE circle_code = ?",
@@ -147,32 +165,35 @@ const AddExistingUserToFamilyCircleWithCode = async (user_input) => {
     if (code_found) {
       console.log("Family circle code located", code_found);
 
-      // Retrieve information from family circle creator
+      // FAMILY CIRCLE CREATOR INFO RETRIEVAL
 
       const circle_creator = await query(
-        "SELECT creator_id, username FROM family_codes WHERE circle_code = ?",
+        "SELECT creator_id, username, circle_code FROM family_codes WHERE circle_code = ?",
         [circle_code]
       );
 
-      // Retrieve information from existing user to be added to family circle
+      // EXISTING USER TO BE ADDED INFO RETRIEVAL
 
       const existing_user = await query(
         "SELECT id, username FROM users WHERE username = ?",
         [username]
       );
 
-      // Add exisiting user to family circle
+      // EXISTING USER ADDED TO FAMILY CIRCLE
 
       await query(
-        "INSERT INTO family_relationships (user_id, username, family_id, circle_creator, relationship) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO family_relationships (user_id, username, family_id, circle_creator, relationship, family_code) VALUES (?, ?, ?, ?, ?, ?)",
         [
           existing_user[0].id,
           existing_user[0].username,
           circle_creator[0].creator_id,
           circle_creator[0].username,
           relationship,
+          circle_creator[0].circle_code,
         ]
       );
+
+      console.log("ADDING USER SUCCESSFUL");
     } else {
       throw new Error("Error creating user:", error);
     }
@@ -185,7 +206,7 @@ const AddExistingUserToFamilyCircleWithCode = async (user_input) => {
   }
 };
 
-// Function that allows New User to Create an Account and A Family Circle
+// NEW USER CREATES A NEW FAMILY CIRCLE AND A NEW ACCOUNT
 
 const createFamilyCircleForNewUser = async (user_input) => {
   const {
@@ -198,21 +219,21 @@ const createFamilyCircleForNewUser = async (user_input) => {
     password,
   } = user_input;
 
-  // Secure password creation
+  // SECURE PASSWORD CREATION
 
   const saltRounds = 10;
   const salt = await bcrypt.genSalt(saltRounds);
 
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  // Family Circle Code Generation. Gives Circle Creators the ability to share code with others and add them to the circle
+  // FAMILY CIRCLE CODE GENERATOR. CODE CAN BE SHARED WITH OTHERS TO ADD TO FAMILY CIRCLE
 
   let circle_code = generateCircleCode();
   console.log("CIRCLE CODE PROVIDED", circle_code);
 
   try {
     if (circle_code) {
-      // While Loop checks to see if circle_code is unique to individual family
+      // LOOP CHECKS TO SEE IF CIRCLE CODE IS UNIQUE
 
       while (true) {
         const existingCode = await query(
@@ -220,7 +241,7 @@ const createFamilyCircleForNewUser = async (user_input) => {
           [circle_code]
         );
 
-        // Unique code allows for new user to create a family circle and an account
+        // UNIQUE CODE ALLOWS FOR NEW USER TO CREATE A FAMILY CIRCLE AND A NEW ACCOUNT
 
         if (existingCode.length === 0) {
           await query(
@@ -237,6 +258,17 @@ const createFamilyCircleForNewUser = async (user_input) => {
           );
 
           console.log("New user created successfully");
+
+          // RETRIEVE NEW USERS ID
+          const user_id = await query("SELECT id FROM users WHERE email = ?", [
+            email,
+          ]);
+
+          // ADD NEW USER INTO FAMILIAL RELATIONSHIPS TABLE. ALLOWS OWNER OF NEW CIRCLE TO BE ASSOCIATED WITH ALL USERS IN THEIR FAMILY CIRCLE.
+          await query(
+            "INSERT INTO family_relationships (user_id, username, family_id, circle_creator, relationship, family_code) VALUES (?, ?, ?, ?, ?, ?)",
+            [user_id, username, user_id, username, "Owner", circle_code]
+          );
 
           // New user information gathered to be added into family_codes table
 
@@ -266,18 +298,18 @@ const createFamilyCircleForNewUser = async (user_input) => {
   }
 };
 
-// Function that allows an Existing User to Create a Family Circle
+// FUNCTION ALLOWS EXISTING USER TO CREATE A FAMILY CIRCLE
 
 const createFamilyCircleForExistingUser = async (user_input) => {
   const { username, circle_name } = user_input;
 
-  // Family Code is generated
+  // GENERATED FAMILY CODE
 
   let circle_code = generateCircleCode();
 
   try {
     if (circle_code) {
-      // While Loop checks to see if circle_code is unique to individual family
+      // LOOP TO CHECK IT CIRCLE CODE GENERATED IS UNIQUE
 
       while (true) {
         const existingCode = await query(
@@ -285,7 +317,7 @@ const createFamilyCircleForExistingUser = async (user_input) => {
           [circle_code]
         );
 
-        // existing user information gathered to be added into family_codes table
+        // EXISTING USER INFO GATHER TO BE ADDED INTO MYSQL DATABASE
 
         if (existingCode.length === 0) {
           const user = await query(
@@ -293,7 +325,7 @@ const createFamilyCircleForExistingUser = async (user_input) => {
             [username]
           );
 
-          // Family code and existing user linked
+          // LINKING GENERATED FAMILY CODE TO EXISTING USER
 
           if (user) {
             await query(
@@ -302,10 +334,24 @@ const createFamilyCircleForExistingUser = async (user_input) => {
             );
 
             console.log("Family circle created successfully!");
+
+            // ADD NEW USER INTO FAMILIAL RELATIONSHIPS TABLE. ALLOWS OWNER OF NEW CIRCLE TO BE ASSOCIATED WITH ALL USERS IN THEIR FAMILY CIRCLE.
+            await query(
+              "INSERT INTO family_relationships (user_id, username, family_id, circle_creator, relationship, family_code) VALUES (?, ?, ?, ?, ?, ?)",
+              [
+                user[0].id,
+                user[0].username,
+                user[0].id,
+                user[0].username,
+                "Owner",
+                circle_code,
+              ]
+            );
+
             break;
           }
         } else {
-          // If code is not unique, new code is generated
+          // IF CODE IS NOT UNIQUE, A NEW CODE IS GENERATED
 
           circle_code = generateCircleCode();
         }
@@ -317,6 +363,7 @@ const createFamilyCircleForExistingUser = async (user_input) => {
 };
 
 export default {
+  searchFamilyCode,
   searchEmail,
   searchUsername,
   AddNewUserToFamilyCircleWithCode,

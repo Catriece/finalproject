@@ -1,7 +1,18 @@
 import query from "../db/utils";
 import moment from "moment";
 
-const postDiscussion = async (req) => {
+const createJournalPost = async (req) => {
+  const { id, post, timestamp } = req;
+
+  if (req) {
+    const create_post = await query(
+      "INSERT INTO posts (user_id, entry, timestamp) VALUES (?, ?, ?)",
+      [id, post, timestamp]
+    );
+  }
+};
+
+const getDiscussionPost = async (req) => {
   const { id } = req;
 
   const now = moment(); // Get the current date and time
@@ -41,5 +52,6 @@ const postDiscussion = async (req) => {
 };
 
 export default {
-  postDiscussion,
+  getDiscussionPost,
+  createJournalPost,
 };

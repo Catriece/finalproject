@@ -1,0 +1,52 @@
+TEMPLATE FOR CREATING A NEW POST
+
+REQUEST TYPE: POST REQUEST
+
+WHAT I USE TO TEST IN POSTMAN:
+
+localhost:5050/api/journal/
+
+CREATING A NEW JOURNAL POST (POST REQUEST)
+
+endpoint: 
+/newpost
+
+{
+    "id": "",
+    "post": "",
+    "family_code": "",
+    "url": ""
+}
+
+UPDATING AN EXISTING JOURNAL POST (PUT REQUEST)
+
+endpoint: 
+/updatepost
+
+{
+    "post": "",
+    "post_id": ""
+}
+
+// CREATE A COMMENT ON A JOURNAL POST (POST REQUEST)
+endpoint: 
+
+/newcomment
+{
+    "id": "",
+    "post_id": "",
+    "comment": "",
+    "comment_id": "",
+    "family_code": "",
+    "url": ""
+}
+
+// UPDATING A COMMENT ON A JOUNRAL POST (PUT REQUEST)
+
+endpoint: 
+/updatecomment
+
+{
+    "comment": "",
+    "comment_id": ""
+}

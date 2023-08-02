@@ -1,4 +1,4 @@
-TEMPLATES FOR CREATING ACCOUNTS
+TEMPLATES FOR CREATING ACCOUNTS FOR NEW AND EXISTING USERS
 
 REQUEST TYPE: POST REQUESTS
 
@@ -22,10 +22,13 @@ endpoint:
     "relationship": ""
 }
 
-ADDING AN EXISTING USER TO FAMILY CIRCLE
+ADDING AN EXISTING USER TO AN EXISTING FAMILY CIRCLE
 
 endpoint:
 /existinguser/joincircle
+
+username is for the person being added to the family circle, not the circle creator
+
 
 {
     "circle_code": "",
