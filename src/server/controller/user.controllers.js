@@ -4,36 +4,37 @@ import bcrypt from "bcrypt";
 
 // UPDATING THE USERS PROFILE PICTURE
 
-const updateProfilePicture = async (req) => {
-  const { id, url } = req;
+// MOVED TO WEBSOCKET CONTROLLERS
+// const updateProfilePicture = async (req) => {
+//   const { id, url } = req;
 
-  if (url) {
-    //VALIDATES URL LINK BASED ON EXTENSION NAME
+//   if (url) {
+//     //VALIDATES URL LINK BASED ON EXTENSION NAME
 
-    const validateImgExt = (url) => {
-      const ext_types = [".jpg", ".jpeg", ".png", ".gif"];
-      const ext = path.extname(url).toLowerCase();
-      return ext_types.includes(ext);
-    };
+//     const validateImgExt = (url) => {
+//       const ext_types = [".jpg", ".jpeg", ".png", ".gif"];
+//       const ext = path.extname(url).toLowerCase();
+//       return ext_types.includes(ext);
+//     };
 
-    const extIsValid = validateImgExt(url);
+//     const extIsValid = validateImgExt(url);
 
-    // UPDATES THE PROFILE PICTURE LINK IN THE DATABASE OR THROWS AN ERROR
+//     // UPDATES THE PROFILE PICTURE LINK IN THE DATABASE OR THROWS AN ERROR
 
-    if (extIsValid) {
-      return await query("UPDATE users SET profile_picture = ? WHERE id = ?", [
-        url,
-        id,
-      ]);
-    } else {
-      throw new Error(
-        "Invalid picture formart. Upload a .jpg, .jpeg, .png, or .gif file only"
-      );
-    }
-  } else if (!url) {
-    throw new Error("Image link is required for update");
-  }
-};
+//     if (extIsValid) {
+//       return await query("UPDATE users SET profile_picture = ? WHERE id = ?", [
+//         url,
+//         id,
+//       ]);
+//     } else {
+//       throw new Error(
+//         "Invalid picture formart. Upload a .jpg, .jpeg, .png, or .gif file only"
+//       );
+//     }
+//   } else if (!url) {
+//     throw new Error("Image link is required for update");
+//   }
+// };
 
 // NEEDS FIXING FOR SURE
 const deleteProfilePicture = async (url) => {
@@ -42,36 +43,36 @@ const deleteProfilePicture = async (url) => {
 
 // UPDATING THE USERS COVER PHOTO
 
-const updateCoverPhoto = async (req) => {
-  const { id, url } = req;
+// const updateCoverPhoto = async (req) => {
+//   const { id, url } = req;
 
-  if (url) {
-    //VALIDATES URL LINK BASED ON EXTENSION NAME
+//   if (url) {
+//     //VALIDATES URL LINK BASED ON EXTENSION NAME
 
-    const validateImgExt = (url) => {
-      const ext_types = [".jpg", ".jpeg", ".png"];
-      const ext = path.extname(url).toLowerCase();
-      return ext_types.includes(ext);
-    };
+//     const validateImgExt = (url) => {
+//       const ext_types = [".jpg", ".jpeg", ".png"];
+//       const ext = path.extname(url).toLowerCase();
+//       return ext_types.includes(ext);
+//     };
 
-    const extIsValid = validateImgExt(url);
+//     const extIsValid = validateImgExt(url);
 
-    // UPDATES THE USERS COVER PHOTO LINK WITHIN THE DATABASE OR THROWS AN ERROR
+//     // UPDATES THE USERS COVER PHOTO LINK WITHIN THE DATABASE OR THROWS AN ERROR
 
-    if (extIsValid) {
-      return await query("UPDATE users SET cover_photo = ? WHERE id = ?", [
-        url,
-        id,
-      ]);
-    } else {
-      throw new Error(
-        "Invalid picture formart. Upload a .jpg, .jpeg, or .png file only"
-      );
-    }
-  } else {
-    throw new Error("Image link is required for update");
-  }
-};
+//     if (extIsValid) {
+//       return await query("UPDATE users SET cover_photo = ? WHERE id = ?", [
+//         url,
+//         id,
+//       ]);
+//     } else {
+//       throw new Error(
+//         "Invalid picture formart. Upload a .jpg, .jpeg, or .png file only"
+//       );
+//     }
+//   } else {
+//     throw new Error("Image link is required for update");
+//   }
+// };
 
 //DELETING COVER PHOTO NEEDS FIXING
 
@@ -202,8 +203,8 @@ const findUsername = async (email) => {
 };
 
 export default {
-  updateProfilePicture,
-  updateCoverPhoto,
+  // updateProfilePicture,
+  // updateCoverPhoto,
   updateBiography,
   updateFirstName,
   updateMiddleName,

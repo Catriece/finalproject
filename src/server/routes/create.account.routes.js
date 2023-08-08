@@ -7,6 +7,37 @@ const router = express.Router();
 // ENSURES EMAIL AND USERNAME ARE NOT ALREADY IN USE
 // USES FAMILY CODE TO ADD NEW USER TO AN EXISTING FAMILY CIRCLE
 
+router.post("/newuser/verifycode", async (req, res, next) => {
+  try {
+    const { requestBody } = req.body;
+    console.log("family code is", requestBody);
+
+    let data = await user.searchFamilyCode(requestBody);
+
+    console.log("MADE IT BACK TO THE ROUTE WITH DATA", data);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/newuser/verifycredentials", async (req, res, next) => {
+  try {
+    console.log("MADE IT TO THE ROUTE WITH", req.query);
+    const { checkUsername, checkEmail } = req.query;
+    console.log("USERNAME IS ", checkUsername);
+    console.log("Email IS ", checkEmail);
+    let data = await user.searchUsername(checkUsername);
+
+    // let email = await user.searchEmail(checkEmail);
+
+    console.log("WE MADE IT OUT THE FUNCTION WITH ", data);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post("/newuser/joincircle", async (req, res, next) => {
   try {
     let user_info = req.body;

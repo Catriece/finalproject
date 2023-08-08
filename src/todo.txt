@@ -8,10 +8,8 @@ CLIENT SIDE
 6. Create biography component
 7. Create Navigation component
 8. Create and style User Profile page
-9. Create and style Messages page
-10. Create Messages component
-11. Create Logo for App that brings user to their dashboard
-12. Create component for comments
+9. Create Logo for App that brings user to their dashboard
+10. Create component for comments
 
 
 SERVER SIDE
@@ -19,12 +17,21 @@ SERVER SIDE
 - build a route that checks for family code
 - limit family code input to 6 digits
 2. Verify username and email the same way
+3. Build Routes and Controllers for:
+- Discussion posts 
+- Discussion comments
+- Journal Post
+- Journal Post Comments
+- Milestones posts
+- Milestones comments
+- Family Challenges (OPTIONAL)
+4. Query database for a users posts and comments for every circle they are a part of
+
 
 ** Maybe when email, username, and family code are verified,
 then show form for first, middle, last name, create password AND select relationship
 3. Create delete routes/controllers
 
-DATABASE
-1. 
+Lastly
+Potentially reorganize folder system :)
 
-To keep user logged in - cache / session token / jsonwebtoken

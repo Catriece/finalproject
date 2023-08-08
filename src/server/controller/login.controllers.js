@@ -41,35 +41,28 @@ const loginAuthentication = async (user_input) => {
       // BECAUSE THE USER CAN BE ATTACHED TO MULITPLE FAMILY CIRCLES, THE DEFAULT CIRCLE CODE IS THE FAMILY CIRCLE THEY FIRST JOINED OR THE FAMILY CIRCLE THEY FIRST CREATED
       // IN AN UPDATE, USER WILL BE ABLE TO CHANGE THEIR DEFAULT FAMILY CIRCLE
 
-      // GATHER USER'S CIRCLE POSTS & CIRCLE'S COMMENTS
+      // GATHER USER'S DEFAULT CIRCLE POSTS & CIRCLE'S COMMENTS
 
-      const family_posts = await query(
-        "SELECT * FROM posts WHERE family_code = ?",
-        [code]
-      );
-
-      const family_post_comments = await query(
-        "SELECT * FROM post_comments WHERE family_code = ?",
-        [code]
-      );
-
-      // GATHER USER'S FAMILY CIRCLE
-      const user_circle = await query(
-        `SELECT CONCAT (first_name, " ", middle_name, " ", last_name) AS name, url, profile_picture FROM users WHERE family_code = ?`,
-        [code]
-      );
+      const [default_posts, default_post_comments, default_family_circle] =
+        await Promise.all([
+          query("SELECT * FROM posts WHERE family_code = ?", [code]),
+          query("SELECT * FROM post_comments WHERE family_code = ?", [code]),
+          query(
+            `SELECT CONCAT (first_name, " ", middle_name, " ", last_name) AS name, id, url, profile_picture FROM users WHERE family_code = ?`,
+            [code]
+          ),
+        ]);
 
       const payload = {
         // GATHERING FAMILY POSTS
-        entry: family_posts.family_posts,
-        entry_timestamp: family_posts.timestamp,
-        // GATHER FAMILY COMMENTS ON POSTS
-        comment: family_post_comments.family_post_comments,
-        comment_timestamp: family_post_comments.timestamp,
-        // GATHERING FAMILY IN USERS CIRCLE
-        circle_name: user_circle.name,
-        family_url: user_circle.url,
-        family_profile_picture: user_circle.profile_picture,
+        family_posts: default_posts.map((post) => post),
+
+        // GATHER FAMILY COMMENTS ON ALL POSTS
+        family_posts_comments: default_post_comments.map((comment) => comment),
+
+        // GATHERING FAMILY IN USERS DEFAULT CIRCLE
+        family_circle: default_family_circle.map((members) => members),
+
         // GATHERING USERS INFORMATION
         user_id: user[0].id,
         username: user[0].username,

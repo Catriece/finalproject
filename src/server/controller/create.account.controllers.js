@@ -24,37 +24,40 @@ const searchEmail = async (user_input) => {
 
 // FUNCTION CHECKS TO SEE IF USERNAME IS IN USE
 
-const searchUsername = async (user_input) => {
-  const { username } = user_input;
-  if (username) {
+const searchUsername = async (checkUsername) => {
+  console.log("USERNAME GIVEN TO FUNCTION", checkUsername);
+  if (checkUsername) {
     const username_check = await query(
       "SELECT username FROM users WHERE LOWER(username) = LOWER(?)",
-      [username]
+      [checkUsername]
     );
 
-    if (username_check.length > 0) {
-      console.log("Username is not available");
-      return false;
-    } else {
+    if (!username_check.length > 0) {
       console.log("Username is available");
-      return username;
+      return checkUsername;
+    } else {
+      console.error("Username is not available");
+      return false;
     }
   }
 };
 
 // FUNCTION LOCATES A FAMILY CODE
 
-const searchFamilyCode = async (user_input) => {
-  const { circle_code } = user_input;
+const searchFamilyCode = async (requestBody) => {
+  console.log("MADE IT TO THE FUNCTION!");
+  console.log("VERIFYING FAMILY CODE", requestBody);
 
-  if (circle_code) {
+  if (requestBody) {
     const find_code = await query(
       "SELECT circle_code FROM family_codes WHERE circle_code = ?",
-      [circle_code]
+      [requestBody]
     );
 
+    console.log("find_code", find_code);
+
     if (find_code.length > 0) {
-      return circle_code;
+      return requestBody;
     } else {
       throw new Error("Invalid Family Code");
     }
@@ -65,6 +68,7 @@ const searchFamilyCode = async (user_input) => {
 
 const AddNewUserToFamilyCircleWithCode = async (user_input) => {
   const {
+    circle_code,
     first_name,
     middle_name,
     last_name,
@@ -91,13 +95,14 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
 
     // USER ACCOUNT CREATED UPON VERIFICATION
 
-    if (username && email) {
+    if (username && email && code_found) {
       await query(
-        "INSERT INTO users (first_name, middle_name, last_name, username, email, password, salt) VALUES(?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO users (first_name, middle_name, last_name, family_code, username, email, password, salt) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
         [
           first_name,
           middle_name,
           last_name,
+          circle_code,
           username,
           email,
           hashedPassword,
@@ -114,8 +119,6 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
         [circle_code]
       );
 
-      console.log("info from creator", circle_creator);
-
       // NEW USER TO BE ADDED INFO RETRIEVAL
 
       const new_user = await query(
@@ -123,18 +126,17 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
         [username]
       );
 
-      console.log("info from new_user", new_user);
-
       // NEW USER ADDED TO FAMILY CIRCLE
 
       await query(
-        "INSERT INTO family_relationships (user_id, username, family_id, circle_creator, relationship) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO family_relationships (user_id, username, family_id, circle_creator, relationship, family_code) VALUES (?, ?, ?, ?, ?, ?)",
         [
           new_user[0].id,
           new_user[0].username,
           circle_creator[0].creator_id,
           circle_creator[0].username,
           relationship,
+          circle_code,
         ]
       );
 

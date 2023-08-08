@@ -1,10 +1,12 @@
 import express from "express";
 import morgan from "morgan";
+import socketIO from "socket.io";
 import cors from "cors";
 import apiRouter from "./routes";
 import config from "./config";
 import { errorHandler } from "./middlewares/errorHandler";
 import { join } from "path";
+import createWebSocket from "./websocket";
 
 const app = express();
 
@@ -54,6 +56,10 @@ app.use(errorHandler);
  * Bind the app to a specified port
  * You can access your app at http://localhost:<port>
  */
-app.listen(config.port || 5050, () =>
+const server = app.listen(config.port || 5050, () =>
   console.log(`Server listening on port ${config.port}...`)
 );
+
+const io = socketIO(server);
+
+createWebSocket(io);

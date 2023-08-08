@@ -1,0 +1,59 @@
+TEMPLATES FOR POSTING RESPONSES TO DISCUSSION QUESTIONS
+
+REQUEST TYPE: POST REQUESTS
+
+WHAT I USE TO TEST IN POSTMAN:
+
+localhost:5050/api/discussion/
+
+POSTING A RESPONSE TO A DISCUSSION QUESTIONS
+
+endpoint: 
+
+/response
+
+{
+    "post_id": "",
+    "user_id": "",
+    "response": "",
+    "name": "",
+    "family_code": ""
+}
+
+
+TEMPLATE FOR DISCUSSION POST comments
+
+POST REQUEST
+endpoint:
+
+/postcomment
+
+{ 
+    "user_id": "", 
+    "discussion_id": "", 
+    "name": "",
+    "comment": "", 
+    "family_code": "" 
+
+}
+
+endpoint:
+
+PUT REQUEST
+/commentupdate
+
+{
+   "comment": "",
+   "comment_id": "" 
+}
+
+
+GET REQUEST
+
+endpoint:
+/retrieval
+
+{
+    "discussion_id": "",
+    "family_code": ""
+}

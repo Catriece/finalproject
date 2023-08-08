@@ -3,27 +3,27 @@ import user from "../controller/user.controllers";
 
 const router = express.Router();
 
-router.put("/profilepicture", async (req, res, next) => {
-  try {
-    let url = req.body;
-    let data = await user.updateProfilePicture(url);
+// router.put("/profilepicture", async (req, res, next) => {
+//   try {
+//     let url = req.body;
+//     let data = await user.updateProfilePicture(url);
 
-    res.json(data);
-  } catch (err) {
-    next(err);
-  }
-});
+//     res.json(data);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
-router.put("/coverphoto", async (req, res, next) => {
-  try {
-    let url = req.body;
-    let data = await user.updateCoverPhoto(url);
+// router.put("/coverphoto", async (req, res, next) => {
+//   try {
+//     let url = req.body;
+//     let data = await user.updateCoverPhoto(url);
 
-    res.json(data);
-  } catch (err) {
-    next(err);
-  }
-});
+//     res.json(data);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 router.put("/biography", async (req, res, next) => {
   try {

@@ -7,7 +7,7 @@ const createComment = async (user_input) => {
   if (!comment) {
     throw new Error("No comment to display");
   } else {
-    const timestamp = moment().format();
+    const timestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
     await query(
       "INSERT INTO post_comments (user_id, post_id, comment, comment_id, timestamp, family_code, media_url) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -22,7 +22,7 @@ const updateComment = async (user_input) => {
   if (!comment) {
     throw new Error("Comment not updated");
   } else {
-    const timestamp = moment().format();
+    const timestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
     await query(
       "UPDATE post_comments SET comment = ?, timestamp = ?, WHERE id = ?",
