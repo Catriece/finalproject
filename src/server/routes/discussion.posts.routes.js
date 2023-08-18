@@ -15,6 +15,26 @@ router.get("/post", async (req, res, next) => {
   }
 });
 
+router.get("/getall/discussionresponses", async (req, res, next) => {
+  try {
+    const data = await discussion.getAllPostResponses(req);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/checkforresponse", async (req, res, next) => {
+  try {
+    const data = await discussion.checkForResponse(req);
+
+    console.log("LEFT THE FUNCTION WITH ", data);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post("/response", async (req, res, next) => {
   try {
     const content = req.body;

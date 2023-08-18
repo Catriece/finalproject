@@ -4,20 +4,19 @@ import generateCircleCode from "../functions/generate.family.code";
 
 // FUNCTION CHECKS TO SEE IF EMAIL IS IN USE
 
-const searchEmail = async (user_input) => {
-  const { email } = user_input;
-  if (email) {
+const searchEmail = async (checkEmail) => {
+  if (checkEmail) {
     const email_check = await query(
       "SELECT email FROM users WHERE LOWER(email) = LOWER(?)",
-      [email]
+      [checkEmail]
     );
 
-    if (email_check.length > 0) {
-      console.log("Email already in use");
-      return false;
-    } else {
+    if (!email_check.length > 0) {
       console.log("Email is available");
-      return email;
+      return checkEmail;
+    } else {
+      console.error("Email already in use");
+      return false;
     }
   }
 };
@@ -25,7 +24,6 @@ const searchEmail = async (user_input) => {
 // FUNCTION CHECKS TO SEE IF USERNAME IS IN USE
 
 const searchUsername = async (checkUsername) => {
-  console.log("USERNAME GIVEN TO FUNCTION", checkUsername);
   if (checkUsername) {
     const username_check = await query(
       "SELECT username FROM users WHERE LOWER(username) = LOWER(?)",
@@ -45,21 +43,16 @@ const searchUsername = async (checkUsername) => {
 // FUNCTION LOCATES A FAMILY CODE
 
 const searchFamilyCode = async (requestBody) => {
-  console.log("MADE IT TO THE FUNCTION!");
-  console.log("VERIFYING FAMILY CODE", requestBody);
-
   if (requestBody) {
     const find_code = await query(
       "SELECT circle_code FROM family_codes WHERE circle_code = ?",
       [requestBody]
     );
 
-    console.log("find_code", find_code);
-
     if (find_code.length > 0) {
       return requestBody;
     } else {
-      throw new Error("Invalid Family Code");
+      return false;
     }
   }
 };
@@ -119,7 +112,7 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
         [circle_code]
       );
 
-      // NEW USER TO BE ADDED INFO RETRIEVAL
+      // NEW USER INFO RETRIEVAL
 
       const new_user = await query(
         "SELECT id, username FROM users WHERE username = ?",

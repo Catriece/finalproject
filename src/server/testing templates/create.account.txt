@@ -64,7 +64,7 @@ endpoint:
 // TEST USERS - USERNAME AND PASSWORDS
 
 heythere - boobooth@foo1
-Erms - ermsGirl5 (has family circle)
+Erms - ermsGirl5 (has family circle) 
 Madsria - madiLovesChocolate (has family circle)
 CaliB23 - BakerBornBby
 jagboy35 - Ballboy5!
@@ -72,8 +72,9 @@ Elileboy35 - Ballboy1!
 Testing1 - Test1!
 Testing2 - Test2!
 EverGirl - EverGreenGirl5
-TestFromClient - clientTest1
+JoGilly23(TestFromClient) - clientTest1
 AnotherTest - testing123
 JAGGirl5 - JAG5Girl
 GLee52 - gleeBoy52
 HenJon - HJBoy52
+heygirl - test5

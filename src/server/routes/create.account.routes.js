@@ -4,34 +4,35 @@ import user from "../controller/create.account.controllers";
 const router = express.Router();
 
 // CREATES A NEW ACCOUNT
-// ENSURES EMAIL AND USERNAME ARE NOT ALREADY IN USE
-// USES FAMILY CODE TO ADD NEW USER TO AN EXISTING FAMILY CIRCLE
 
 router.post("/newuser/verifycode", async (req, res, next) => {
   try {
     const { requestBody } = req.body;
-    console.log("family code is", requestBody);
-
     let data = await user.searchFamilyCode(requestBody);
-
-    console.log("MADE IT BACK TO THE ROUTE WITH DATA", data);
     res.json(data);
   } catch (err) {
     next(err);
   }
 });
 
-router.get("/newuser/verifycredentials", async (req, res, next) => {
+router.get("/newuser/verifyusername", async (req, res, next) => {
   try {
-    console.log("MADE IT TO THE ROUTE WITH", req.query);
-    const { checkUsername, checkEmail } = req.query;
-    console.log("USERNAME IS ", checkUsername);
-    console.log("Email IS ", checkEmail);
+    const { checkUsername } = req.query;
     let data = await user.searchUsername(checkUsername);
 
     // let email = await user.searchEmail(checkEmail);
 
-    console.log("WE MADE IT OUT THE FUNCTION WITH ", data);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/newuser/verifyemail", async (req, res, next) => {
+  try {
+    const { checkEmail } = req.query;
+    let data = await user.searchEmail(checkEmail);
+
     res.json(data);
   } catch (err) {
     next(err);
@@ -41,7 +42,6 @@ router.get("/newuser/verifycredentials", async (req, res, next) => {
 router.post("/newuser/joincircle", async (req, res, next) => {
   try {
     let user_info = req.body;
-    console.log("REQUEST BODY", user_info);
     if (user_info) {
       let new_username = await user.searchUsername(user_info);
 
@@ -69,7 +69,6 @@ router.post("/newuser/joincircle", async (req, res, next) => {
 router.post("/existinguser/joincircle", async (req, res, next) => {
   try {
     let user_info = req.body;
-    console.log("REQUEST BODY", user_info);
 
     if (user_info) {
       let data = await user.AddExistingUserToFamilyCircleWithCode(user_info);
@@ -88,7 +87,6 @@ router.post("/existinguser/joincircle", async (req, res, next) => {
 router.post("/newuser/newcircle", async (req, res, next) => {
   try {
     let user_info = req.body;
-    console.log("req body", user_info);
 
     if (user_info) {
       let new_circle = await user.createFamilyCircleForNewUser(user_info);
@@ -105,7 +103,6 @@ router.post("/newuser/newcircle", async (req, res, next) => {
 router.post("/existinguser/newcircle", async (req, res, next) => {
   try {
     let user_info = req.body;
-    console.log("req body", user_info);
 
     if (user_info) {
       let new_circle = await user.createFamilyCircleForExistingUser(user_info);

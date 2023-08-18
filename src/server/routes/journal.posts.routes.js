@@ -23,4 +23,31 @@ router.put("/updatepost", async (req, res, next) => {
   }
 });
 
+router.get("/getposts", async (req, res, next) => {
+  try {
+    const data = await post.getUsersPosts(req);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/getallposts", async (req, res, next) => {
+  try {
+    const data = await post.getFamilyCirclesPosts(req);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete("/deletepost", async (req, res, next) => {
+  try {
+    const data = await post.deletePost(req);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;

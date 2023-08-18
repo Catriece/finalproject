@@ -82,7 +82,7 @@ const deleteCoverPhoto = async (url) => {
 
 // USER CAN UPDATE THEIR BIOGRAPHY
 const updateBiography = async (req) => {
-  const { id, biography } = req;
+  const { id, biography } = req.body;
 
   // USER ABLE TO UPDATE BIOGRAPHY WITH CHARACTER COUNT LESS THAN 251
   if (id && biography.length < 251) {
@@ -90,6 +90,16 @@ const updateBiography = async (req) => {
       biography,
       id,
     ]);
+  } else {
+    return null;
+  }
+};
+
+const getBiography = async (req) => {
+  const { id } = req;
+
+  if (id) {
+    return await query("SELECT biography FROM users WHERE id = ?", [id]);
   } else {
     return null;
   }
@@ -166,45 +176,95 @@ const updateEmail = async (req) => {
     throw new Error("Email is required");
   }
 };
+const getEmail = async (checkEmail) => {
+  if (checkEmail) {
+    const username = await query(
+      "SELECT username FROM users WHERE LOWER(email) = LOWER(?)",
+      [checkEmail]
+    );
+
+    if (username.length > 0) {
+      console.log("Username FOund");
+      return username;
+    } else {
+      console.error("Username not found");
+      return false;
+    }
+  } else {
+    console.error("Email not available", error);
+    return false;
+  }
+};
 
 const updatePassword = async (req) => {
-  const { id, password } = req;
+  const { username, password } = req.body;
 
-  const saltRounds = 10;
-  const salt = await bcrypt.genSalt(saltRounds);
+  try {
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-  const hashedPassword = await bcrypt.hash(password, salt);
+    await query(
+      "UPDATE users SET password = ?, salt = ? WHERE LOWER(username) = LOWER(?)",
+      [hashedPassword, salt, username]
+    );
 
-  if (password) {
-    return await query("UPDATE users SET password = ?, salt = ? WHERE id = ?", [
-      hashedPassword,
-      salt,
-      id,
-    ]);
+    return true;
+  } catch (err) {
+    console.error("Trouble updating password", err);
+  }
+};
+
+const getPassword = async (req) => {
+  const { email, username } = req.query;
+
+  if (req.query) {
+    const response = await query(
+      "SELECT id FROM users WHERE LOWER(email) = LOWER(?) AND LOWER(username) = LOWER(?)",
+      [email, username]
+    );
+
+    if (response.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
   } else {
-    return null;
+    console.error("No parameters given", error);
   }
 };
 
 // Function checks to see if a username is already in use.
 
 const findUsername = async (email) => {
-  console.log("MADE IT TO FIND USERNAME FUNCTION");
   if (email) {
     const found_username = await query(
-      "SELECT username FROM users WHERE email = ?",
+      "SELECT username FROM users WHERE LOWER(email) = LOWER(?)",
       [email]
     );
-    console.log("EMAIL FOUND", found_username);
     return found_username;
   } else {
     throw new Error("Email not associated with an account");
   }
 };
 
+const getImage = async (req) => {
+  const { id } = req.query;
+
+  if (!id) {
+    return false;
+  } else {
+    return await query(
+      "SELECT id, profile_picture, first_name FROM users WHERE id = ?",
+      [id]
+    );
+  }
+};
+
 export default {
   // updateProfilePicture,
   // updateCoverPhoto,
+  getImage,
   updateBiography,
   updateFirstName,
   updateMiddleName,
@@ -214,4 +274,7 @@ export default {
   deleteCoverPhoto,
   deleteProfilePicture,
   findUsername,
+  getBiography,
+  getPassword,
+  getEmail,
 };
