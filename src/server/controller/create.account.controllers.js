@@ -24,6 +24,7 @@ const searchEmail = async (checkEmail) => {
 // FUNCTION CHECKS TO SEE IF USERNAME IS IN USE
 
 const searchUsername = async (checkUsername) => {
+  console.log("MADE IT TO THE SEARCH FUNCTION WITH", checkUsername);
   if (checkUsername) {
     const username_check = await query(
       "SELECT username FROM users WHERE LOWER(username) = LOWER(?)",
@@ -204,6 +205,7 @@ const AddExistingUserToFamilyCircleWithCode = async (user_input) => {
 // NEW USER CREATES A NEW FAMILY CIRCLE AND A NEW ACCOUNT
 
 const createFamilyCircleForNewUser = async (user_input) => {
+  console.log("MADE IT TO THIS FUNCTION WITH", user_input);
   const {
     circle_name,
     first_name,
@@ -240,11 +242,12 @@ const createFamilyCircleForNewUser = async (user_input) => {
 
         if (existingCode.length === 0) {
           await query(
-            "INSERT INTO users (first_name, middle_name, last_name, username, email, password, salt) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO users (first_name, middle_name, last_name, family_code, username, email, password, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             [
               first_name,
               middle_name,
               last_name,
+              circle_code,
               username,
               email,
               hashedPassword,
@@ -253,39 +256,45 @@ const createFamilyCircleForNewUser = async (user_input) => {
           );
 
           console.log("New user created successfully");
-
-          // RETRIEVE NEW USERS ID
-          const user_id = await query("SELECT id FROM users WHERE email = ?", [
-            email,
-          ]);
-
-          // ADD NEW USER INTO FAMILIAL RELATIONSHIPS TABLE. ALLOWS OWNER OF NEW CIRCLE TO BE ASSOCIATED WITH ALL USERS IN THEIR FAMILY CIRCLE.
-          await query(
-            "INSERT INTO family_relationships (user_id, username, family_id, circle_creator, relationship, family_code) VALUES (?, ?, ?, ?, ?, ?)",
-            [user_id, username, user_id, username, "Owner", circle_code]
-          );
-
-          // New user information gathered to be added into family_codes table
-
-          const user = await query(
-            "SELECT id, username FROM users WHERE username = ?",
-            [username]
-          );
-
-          // Family code and new user linked
-
-          await query(
-            "INSERT INTO family_codes (creator_id, username, circle_name, circle_code) VALUES (?, ?, ?, ?)",
-            [user[0].id, user[0].username, circle_name, circle_code]
-          );
-
-          console.log("Family circle created successfully!");
-          break;
         } else {
           // If code is not unique, new code is generated
 
           circle_code = generateCircleCode();
         }
+
+        // RETRIEVE NEW USERS ID
+        const get_id = await query("SELECT id FROM users WHERE email = ?", [
+          email,
+        ]);
+
+        console.log("HERE IS THE NEW USERS ID", get_id);
+
+        // ADD NEW USER INTO FAMILIAL RELATIONSHIPS TABLE. ALLOWS OWNER OF NEW CIRCLE TO BE ASSOCIATED WITH ALL USERS IN THEIR FAMILY CIRCLE.
+        await query(
+          "INSERT INTO family_relationships (user_id, username, family_id, circle_creator, relationship, family_code) VALUES (?, ?, ?, ?, ?, ?)",
+          [get_id[0].id, username, get_id[0].id, username, "Owner", circle_code]
+        );
+
+        // New user information gathered to be added into family_codes table
+
+        const get_user = await query(
+          "SELECT id, username FROM users WHERE username = ?",
+          [username]
+        );
+
+        console.log(
+          "USER INFO GRABBED FROM USERS TABLE FOR FAMILY_CODES TABLE",
+          get_user
+        );
+        // Family code and new user linked
+
+        await query(
+          "INSERT INTO family_codes (creator_id, username, circle_name, circle_code) VALUES (?, ?, ?, ?)",
+          [get_user[0].id, get_user[0].username, circle_name, circle_code]
+        );
+
+        console.log("Family circle created successfully!");
+        break;
       }
     }
   } catch (err) {

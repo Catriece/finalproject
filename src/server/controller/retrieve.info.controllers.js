@@ -14,6 +14,22 @@ const getMembers = async (req) => {
     return false;
   }
 };
+
+const getUsername = async (req) => {
+  const { user_id } = req.body;
+
+  if (user_id) {
+    const username = await query("SELECT username FROM users WHERE id = ?", [
+      user_id,
+    ]);
+
+    return username;
+  } else {
+    return false;
+  }
+};
+
 export default {
   getMembers,
+  getUsername,
 };

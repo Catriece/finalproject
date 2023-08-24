@@ -15,3 +15,12 @@ router.post("/familycircle", async (req, res, next) => {
 });
 
 export default router;
+
+router.post("/username", async (req, res, next) => {
+  try {
+    let data = await retrieve.getUsername(req);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});

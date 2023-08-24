@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 
 // UPDATING THE USERS PROFILE PICTURE
 
-// MOVED TO WEBSOCKET CONTROLLERS
 // const updateProfilePicture = async (req) => {
 //   const { id, url } = req;
 
@@ -35,50 +34,6 @@ import bcrypt from "bcrypt";
 //     throw new Error("Image link is required for update");
 //   }
 // };
-
-// NEEDS FIXING FOR SURE
-const deleteProfilePicture = async (url) => {
-  return await query("DELETE FROM users WHERE profile_picture = ?", [url]);
-};
-
-// UPDATING THE USERS COVER PHOTO
-
-// const updateCoverPhoto = async (req) => {
-//   const { id, url } = req;
-
-//   if (url) {
-//     //VALIDATES URL LINK BASED ON EXTENSION NAME
-
-//     const validateImgExt = (url) => {
-//       const ext_types = [".jpg", ".jpeg", ".png"];
-//       const ext = path.extname(url).toLowerCase();
-//       return ext_types.includes(ext);
-//     };
-
-//     const extIsValid = validateImgExt(url);
-
-//     // UPDATES THE USERS COVER PHOTO LINK WITHIN THE DATABASE OR THROWS AN ERROR
-
-//     if (extIsValid) {
-//       return await query("UPDATE users SET cover_photo = ? WHERE id = ?", [
-//         url,
-//         id,
-//       ]);
-//     } else {
-//       throw new Error(
-//         "Invalid picture formart. Upload a .jpg, .jpeg, or .png file only"
-//       );
-//     }
-//   } else {
-//     throw new Error("Image link is required for update");
-//   }
-// };
-
-//DELETING COVER PHOTO NEEDS FIXING
-
-const deleteCoverPhoto = async (url) => {
-  return await query("DELETE FROM users WHERE cover_photo = ?", [url]);
-};
 
 // USER CAN UPDATE THEIR BIOGRAPHY
 const updateBiography = async (req) => {
@@ -234,6 +189,61 @@ const getPassword = async (req) => {
   }
 };
 
+const findUser = async (req) => {
+  const { email } = req.query;
+  if (email) {
+    const found_user = await query("SELECT id FROM users WHERE email = ?", [
+      email,
+    ]);
+
+    if (found_user.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
+const updateUsername = async (req) => {
+  const { checkUsername, id } = req.body;
+
+  // UPDATE USERNAME IN DATABASE
+  console.log("MADE IT TO THE FUNCTION WITH", req.body);
+
+  try {
+    if (checkUsername) {
+      const useable = await query(
+        "SELECT username FROM users WHERE LOWER(username) = ?",
+        [checkUsername.toLowerCase()]
+      );
+
+      console.log("USERNAME IS USEABLE", useable);
+
+      if (useable.length === 0) {
+        await query("UPDATE users SET username = ? WHERE id = ?", [
+          checkUsername,
+          id,
+        ]);
+        await query(
+          "UPDATE family_relationships SET username = ? WHERE user_id = ?",
+          [checkUsername, id]
+        );
+        await query(
+          "UPDATE family_codes SET username = ? WHERE creator_id = ?",
+          [checkUsername, id]
+        );
+
+        return true;
+      } else {
+        return false;
+      }
+    }
+  } catch (error) {
+    console.error("Error updating username:", error);
+    return false;
+  }
+};
+
 // Function checks to see if a username is already in use.
 
 const findUsername = async (email) => {
@@ -262,17 +272,15 @@ const getImage = async (req) => {
 };
 
 export default {
-  // updateProfilePicture,
-  // updateCoverPhoto,
   getImage,
   updateBiography,
   updateFirstName,
   updateMiddleName,
   updateLastName,
   updateEmail,
+  updateUsername,
   updatePassword,
-  deleteCoverPhoto,
-  deleteProfilePicture,
+  findUser,
   findUsername,
   getBiography,
   getPassword,

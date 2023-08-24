@@ -101,6 +101,28 @@ router.get("/passwordreset", async (req, res, next) => {
   }
 });
 
+router.put("/username", async (req, res, next) => {
+  try {
+    console.log("MADE IT TO THE UPDATE USERNAME ROUTE WITH", req.body);
+    let data = await user.updateUsername(req);
+    console.log("LEAVING THE FUNCTION WITH", data);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/finduser", async (req, res, next) => {
+  try {
+    console.log("MADE IT TO THE FUNCTION WITH", req.query);
+    let data = await user.findUser(req);
+    console.log("LEAVING THE FUNCTION WITH", data);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // USERNAME ROUTERS
 router.post("/username", async (req, res, next) => {
   try {
@@ -120,7 +142,9 @@ router.post("/username", async (req, res, next) => {
 
 router.get("/getusername", async (req, res, next) => {
   try {
+    console.log("MADE IT TO THE FUNCTION WITH", req);
     let data = await user.getUsername(req);
+    console.log("LEAVING THE FUNCTION WITH", data);
     res.json(data);
   } catch (err) {
     next(err);
