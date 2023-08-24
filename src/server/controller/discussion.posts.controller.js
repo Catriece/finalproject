@@ -31,7 +31,6 @@ const getAllPostResponses = async (req) => {
 
 const checkForResponse = async (req) => {
   const { userId, discussionId } = req.query;
-  console.log("HERE IS THE REQUEST QUERY INSIDE THE FUNCTION", req.query);
 
   if (req.query) {
     const responded = await query(

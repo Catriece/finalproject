@@ -19,7 +19,6 @@ router.get("/newuser/verifyusername", async (req, res, next) => {
   try {
     const { checkUsername } = req.query;
     let data = await user.searchUsername(checkUsername);
-    console.log("LEFT VERIFYUSERNAME FUNCTION WITH", data);
     res.json(data);
   } catch (err) {
     next(err);
@@ -83,13 +82,12 @@ router.post("/existinguser/joincircle", async (req, res, next) => {
 // ALLOWS USER TO CREATE AN ACCOUNT AND A NEW FAMILY CIRCLE
 
 router.post("/newuser/newcircle", async (req, res, next) => {
-  console.log("MADE IT TO THE ROUTE WITH", req.body);
   try {
     let user_info = req.body;
 
     if (user_info) {
       let new_circle = await user.createFamilyCircleForNewUser(user_info);
-      console.log("LEFT WITH", new_circle);
+
       res.json(new_circle);
     }
   } catch (err) {

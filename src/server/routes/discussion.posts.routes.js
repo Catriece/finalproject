@@ -28,7 +28,6 @@ router.get("/checkforresponse", async (req, res, next) => {
   try {
     const data = await discussion.checkForResponse(req);
 
-    console.log("LEFT THE FUNCTION WITH ", data);
     res.json(data);
   } catch (err) {
     next(err);

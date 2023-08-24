@@ -6,7 +6,6 @@ const secretKey = "1222-0509-0722-0728";
 
 const loginAuthentication = async (user_input) => {
   const { username, password } = user_input;
-  console.log("USERNAME FROM LOGIN AUTHENTICATION", username);
 
   if (username && password) {
     const db_password = await query(

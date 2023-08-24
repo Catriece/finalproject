@@ -12,7 +12,6 @@ const searchEmail = async (checkEmail) => {
     );
 
     if (!email_check.length > 0) {
-      console.log("Email is available");
       return checkEmail;
     } else {
       console.error("Email already in use");
@@ -24,7 +23,6 @@ const searchEmail = async (checkEmail) => {
 // FUNCTION CHECKS TO SEE IF USERNAME IS IN USE
 
 const searchUsername = async (checkUsername) => {
-  console.log("MADE IT TO THE SEARCH FUNCTION WITH", checkUsername);
   if (checkUsername) {
     const username_check = await query(
       "SELECT username FROM users WHERE LOWER(username) = LOWER(?)",
@@ -32,7 +30,6 @@ const searchUsername = async (checkUsername) => {
     );
 
     if (!username_check.length > 0) {
-      console.log("Username is available");
       return checkUsername;
     } else {
       console.error("Username is not available");
@@ -104,8 +101,6 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
         ]
       );
 
-      console.log("New user created successfully");
-
       // FAMILY CIRCLE CREATOR INFO RETRIEVAL
 
       const circle_creator = await query(
@@ -133,8 +128,6 @@ const AddNewUserToFamilyCircleWithCode = async (user_input) => {
           circle_code,
         ]
       );
-
-      console.log("Family relationship established!");
     } else {
       throw new Error("Error creating user:", error);
     }
@@ -159,8 +152,6 @@ const AddExistingUserToFamilyCircleWithCode = async (user_input) => {
     );
 
     if (code_found) {
-      console.log("Family circle code located", code_found);
-
       // FAMILY CIRCLE CREATOR INFO RETRIEVAL
 
       const circle_creator = await query(
@@ -188,8 +179,6 @@ const AddExistingUserToFamilyCircleWithCode = async (user_input) => {
           circle_creator[0].circle_code,
         ]
       );
-
-      console.log("ADDING USER SUCCESSFUL");
     } else {
       throw new Error("Error creating user:", error);
     }
@@ -205,7 +194,6 @@ const AddExistingUserToFamilyCircleWithCode = async (user_input) => {
 // NEW USER CREATES A NEW FAMILY CIRCLE AND A NEW ACCOUNT
 
 const createFamilyCircleForNewUser = async (user_input) => {
-  console.log("MADE IT TO THIS FUNCTION WITH", user_input);
   const {
     circle_name,
     first_name,
@@ -226,7 +214,6 @@ const createFamilyCircleForNewUser = async (user_input) => {
   // FAMILY CIRCLE CODE GENERATOR. CODE CAN BE SHARED WITH OTHERS TO ADD TO FAMILY CIRCLE
 
   let circle_code = generateCircleCode();
-  console.log("CIRCLE CODE PROVIDED", circle_code);
 
   try {
     if (circle_code) {
@@ -254,8 +241,6 @@ const createFamilyCircleForNewUser = async (user_input) => {
               salt,
             ]
           );
-
-          console.log("New user created successfully");
         } else {
           // If code is not unique, new code is generated
 
@@ -266,8 +251,6 @@ const createFamilyCircleForNewUser = async (user_input) => {
         const get_id = await query("SELECT id FROM users WHERE email = ?", [
           email,
         ]);
-
-        console.log("HERE IS THE NEW USERS ID", get_id);
 
         // ADD NEW USER INTO FAMILIAL RELATIONSHIPS TABLE. ALLOWS OWNER OF NEW CIRCLE TO BE ASSOCIATED WITH ALL USERS IN THEIR FAMILY CIRCLE.
         await query(
@@ -282,10 +265,6 @@ const createFamilyCircleForNewUser = async (user_input) => {
           [username]
         );
 
-        console.log(
-          "USER INFO GRABBED FROM USERS TABLE FOR FAMILY_CODES TABLE",
-          get_user
-        );
         // Family code and new user linked
 
         await query(
@@ -293,7 +272,6 @@ const createFamilyCircleForNewUser = async (user_input) => {
           [get_user[0].id, get_user[0].username, circle_name, circle_code]
         );
 
-        console.log("Family circle created successfully!");
         break;
       }
     }
@@ -336,8 +314,6 @@ const createFamilyCircleForExistingUser = async (user_input) => {
               "INSERT INTO family_codes (creator_id, username, circle_name, circle_code) VALUES (?, ?, ?, ?)",
               [user[0].id, user[0].username, circle_name, circle_code]
             );
-
-            console.log("Family circle created successfully!");
 
             // ADD NEW USER INTO FAMILIAL RELATIONSHIPS TABLE. ALLOWS OWNER OF NEW CIRCLE TO BE ASSOCIATED WITH ALL USERS IN THEIR FAMILY CIRCLE.
             await query(

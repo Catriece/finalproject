@@ -1,39 +1,5 @@
 import query from "../db/utils";
-import path from "path";
 import bcrypt from "bcrypt";
-
-// UPDATING THE USERS PROFILE PICTURE
-
-// const updateProfilePicture = async (req) => {
-//   const { id, url } = req;
-
-//   if (url) {
-//     //VALIDATES URL LINK BASED ON EXTENSION NAME
-
-//     const validateImgExt = (url) => {
-//       const ext_types = [".jpg", ".jpeg", ".png", ".gif"];
-//       const ext = path.extname(url).toLowerCase();
-//       return ext_types.includes(ext);
-//     };
-
-//     const extIsValid = validateImgExt(url);
-
-//     // UPDATES THE PROFILE PICTURE LINK IN THE DATABASE OR THROWS AN ERROR
-
-//     if (extIsValid) {
-//       return await query("UPDATE users SET profile_picture = ? WHERE id = ?", [
-//         url,
-//         id,
-//       ]);
-//     } else {
-//       throw new Error(
-//         "Invalid picture formart. Upload a .jpg, .jpeg, .png, or .gif file only"
-//       );
-//     }
-//   } else if (!url) {
-//     throw new Error("Image link is required for update");
-//   }
-// };
 
 // USER CAN UPDATE THEIR BIOGRAPHY
 const updateBiography = async (req) => {
@@ -139,7 +105,6 @@ const getEmail = async (checkEmail) => {
     );
 
     if (username.length > 0) {
-      console.log("Username FOund");
       return username;
     } else {
       console.error("Username not found");
@@ -208,7 +173,6 @@ const updateUsername = async (req) => {
   const { checkUsername, id } = req.body;
 
   // UPDATE USERNAME IN DATABASE
-  console.log("MADE IT TO THE FUNCTION WITH", req.body);
 
   try {
     if (checkUsername) {
@@ -216,8 +180,6 @@ const updateUsername = async (req) => {
         "SELECT username FROM users WHERE LOWER(username) = ?",
         [checkUsername.toLowerCase()]
       );
-
-      console.log("USERNAME IS USEABLE", useable);
 
       if (useable.length === 0) {
         await query("UPDATE users SET username = ? WHERE id = ?", [
