@@ -1,0 +1,16 @@
+.card .shadow {
+  width: 1.85rem;
+  margin-right: 5px;
+  display: inline;
+}
+
+.pic-div {
+  position: relative;
+}
+
+.pic-btn {
+  position: absolute;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}

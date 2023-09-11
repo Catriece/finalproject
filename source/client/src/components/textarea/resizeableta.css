@@ -1,0 +1,10 @@
+/* ResizableTextArea.css */
+.resizable-textarea {
+  width: 100%;
+  min-height: 65px;
+  resize: none;
+  overflow-y: hidden;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+}

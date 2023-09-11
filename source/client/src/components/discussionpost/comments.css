@@ -1,0 +1,70 @@
+body {
+  background-color: #eee;
+}
+
+.post-div {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+}
+
+.bdge {
+  height: 21px;
+  background-color: orange;
+  color: #fff;
+  font-size: 11px;
+  padding: 8px;
+  border-radius: 4px;
+  line-height: 3px;
+}
+
+.comments {
+  text-decoration: underline;
+  text-underline-position: under;
+  cursor: pointer;
+}
+
+.dot {
+  height: 7px;
+  width: 7px;
+  margin-top: 3px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.hit-voting:hover {
+  color: blue;
+}
+
+.hit-voting {
+  cursor: pointer;
+}
+
+.post-name {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.cc-timestamp {
+  font-size: 12px;
+  margin-top: 1px;
+  text-align: center;
+}
+
+.post-content {
+  text-align: center;
+  font-size: 14px;
+}
+
+.commented-section-even {
+  background-color: #f5f5f5; /* Light gray */
+}
+
+.commented-section-odd {
+  background-color: #ffffff; /* White */
+}

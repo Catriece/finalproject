@@ -1,0 +1,109 @@
+.div {
+  padding: 15px 25px;
+  gap: 20px;
+  min-width: 365px;
+  max-width: 400px;
+  margin: auto;
+  overflow: scroll;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+.dash-nav {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.dash-div {
+  width: 600px;
+}
+
+.dash-heading {
+  font-weight: 600;
+  margin: 5px;
+}
+
+.dash-header {
+  font-weight: 500px;
+  margin: 3px;
+  font-size: 18px;
+}
+
+/* BUTTONS */
+
+.bg-red {
+  background-color: #ff5f59;
+}
+
+.buttons {
+  grid-column: 1 / 4;
+  grid-row: 5;
+  display: flex;
+  justify-content: center; /* Adjust the width as needed */
+}
+
+button {
+  font-size: 10px;
+  position: relative;
+  margin: auto;
+  padding: 0.5em 1.75em 0.5em 1.75em;
+  border: none;
+  background: #fff;
+  transition: all 0.1s linear;
+  box-shadow: 0 0.4em 1em rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button span {
+  color: #464646;
+}
+
+button .border {
+  position: absolute;
+  border: 0.15em solid #fff;
+  transition: all 0.3s 0.08s linear;
+  top: 50%;
+  left: 50%;
+  width: 9em;
+  height: 3em;
+  transform: translate(-50%, -50%);
+}
+
+button:hover .border {
+  display: block;
+  width: 9.9em;
+  height: 3.7em;
+}
+
+.full-rounded {
+  border-radius: 2em;
+}
+
+.db-btn {
+  height: 2rem;
+  margin-bottom: 10px;
+}
+
+.left {
+  border-radius: 15px 0 0 15px;
+}
+
+.right {
+  border-radius: 0 15px 15px 0;
+}
+
+#dash-lo-btn {
+  height: 1.5rem;
+  margin-bottom: 5px;
+  margin-left: 3px;
+  border-radius: 2em;
+  margin-right: 65%;
+}

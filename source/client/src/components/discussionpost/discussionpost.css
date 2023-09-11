@@ -1,0 +1,65 @@
+.dp-form {
+  max-width: 400px;
+  max-height: 465px;
+  margin: 0 auto;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+}
+
+.dp-form-group {
+  margin-bottom: 10px;
+  overflow: scroll;
+}
+
+.dp-form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.dp-form-input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+}
+
+textarea.dp-form-input {
+  height: 100px;
+}
+
+.dp-form-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #ff6f69;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dp-form-button:hover {
+  background-color: #ff5f59;
+}
+
+.dp-all-posts {
+  max-height: 300px;
+}
+
+.dp-timestamp {
+  font-size: 14px;
+}
+
+.commented-section-even {
+  background-color: #f5f5f5; /* Light gray */
+}
+
+.commented-section-odd {
+  background-color: #ffffff; /* White */
+}

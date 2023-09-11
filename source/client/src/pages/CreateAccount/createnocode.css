@@ -1,0 +1,95 @@
+.no-code-header {
+  grid-row: 3;
+}
+
+.nc-username-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 40px;
+  padding: 10px 20px;
+  min-height: 245px;
+  min-width: 270px;
+  position: relative;
+  min-width: 270px;
+  max-width: 320px;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 1.3em;
+}
+
+.warning {
+  color: red;
+  font-size: 13px;
+}
+
+.nc-signup {
+  color: rgb(77, 75, 75);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: block;
+  font-weight: bold;
+  font-size: x-large;
+  margin-bottom: 0.5em;
+}
+
+.nc-input {
+  width: 100%;
+  margin-bottom: 1.25em;
+  height: 40px;
+  border-radius: 50px;
+  border: 1px solid gray;
+  padding: 0.8em;
+  font-family: "inter", sans-serif;
+  outline: none;
+}
+
+.form-submit-btn {
+  width: 50%;
+  padding: 0.625em;
+  border-radius: 15px;
+  color: white;
+  background-color: #639;
+  border: 1px dashed #639;
+  cursor: pointer;
+  margin-right: auto;
+  margin-bottom: 5px;
+  margin-left: auto;
+}
+
+p {
+  margin: 0;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.signup-button {
+  border-radius: 12px;
+  border: 0.5px black solid;
+  width: 150px;
+  height: 25px;
+  font-size: 0.65em;
+  padding: 0;
+}
+
+.input {
+  text-align: center;
+}
+
+.input-container {
+  text-align: center;
+}
+
+.field {
+  border-radius: 15px;
+  border: 0.5px solid black;
+  margin-bottom: 10px;
+  width: 225px;
+  height: 30px;
+}
+
+.button-div {
+  text-align: center;
+}

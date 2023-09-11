@@ -1,0 +1,64 @@
+/* MOBILE */
+
+.ebio-card {
+  margin: auto;
+  max-width: 320px;
+  height: 150px;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.05);
+}
+
+.ebio-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  -moz-column-gap: 1rem;
+  column-gap: 1rem;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+}
+
+.ebio-title {
+  font-weight: 600;
+  color: rgb(31 41 55);
+}
+
+.ebio-edit {
+  font-size: 10px;
+  max-height: 1rem;
+  background-color: rgb(17 24 39);
+  font-weight: 500;
+  border-radius: 0.5rem;
+  color: #fff;
+  border: none;
+  margin: -5px;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.exit-btn {
+  margin-left: 55px;
+}
+
+.ebio-content {
+  background-color: #f7fafc;
+  color: #4a5568;
+  border-width: 1px;
+  width: 100%;
+  resize: none;
+  outline: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  height: 65%;
+}
+
+.ebio-button:hover {
+  border-color: #738694;
+  color: #fff;
+}
+
+.ebio-button:focus {
+  fill: #90cdf4;
+  background-color: #90cdf4;
+}

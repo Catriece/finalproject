@@ -1,0 +1,63 @@
+.bio-card {
+  margin: auto;
+  max-width: 320px;
+  max-height: 200px;
+  min-height: 80px;
+  padding: 0.5rem;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.05);
+}
+
+.bio-title {
+  font-weight: 600;
+  color: rgb(31 41 55);
+}
+
+.bio-description {
+  margin: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: rgb(75 85 99);
+}
+
+.bio-description a {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246);
+}
+
+.bio-description a:hover {
+  -webkit-text-decoration-line: underline;
+  text-decoration-line: underline;
+}
+
+.bio-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  -moz-column-gap: 1rem;
+  column-gap: 1rem;
+  flex-shrink: 0;
+}
+
+.bio-edit {
+  font-size: 10px;
+  max-height: 1rem;
+  background-color: rgb(17 24 39);
+  font-weight: 500;
+  border-radius: 0.5rem;
+  color: #fff;
+  margin-left: 40%;
+  border: none;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bio-edit:hover {
+  background-color: rgb(55 65 81);
+}
+
+.bio-edit:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
