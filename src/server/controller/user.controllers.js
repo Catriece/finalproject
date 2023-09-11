@@ -97,6 +97,7 @@ const updateEmail = async (req) => {
     throw new Error("Email is required");
   }
 };
+
 const getEmail = async (checkEmail) => {
   if (checkEmail) {
     const username = await query(

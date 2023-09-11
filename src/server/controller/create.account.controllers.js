@@ -23,6 +23,7 @@ const searchEmail = async (checkEmail) => {
 // FUNCTION CHECKS TO SEE IF USERNAME IS IN USE
 
 const searchUsername = async (checkUsername) => {
+  console.log("WHAT IS PASSED", checkUsername);
   if (checkUsername) {
     const username_check = await query(
       "SELECT username FROM users WHERE LOWER(username) = LOWER(?)",
